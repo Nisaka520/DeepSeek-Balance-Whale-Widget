@@ -1,11 +1,30 @@
-# DSH 小鲸鱼记账挂件（DeepSeek Balance Whale Widget）
+# DSH 小鲸鱼记账挂件（鲸鱼郎版）
 
-![DSH 小鲸鱼记账挂件](assets/DSH2.png)
+![DSH 小鲸鱼记账挂件（鲸鱼郎版）](assets/DSH2.png)
 
 DeepSeek Harness（DSH）Web 界面右下角的常驻挂件：小鲸鱼气泡图 + DeepSeek API 余额 + 今日已用 + 每轮对话消耗，并且**泡泡内容可以完全自定义**（点击序列、模块化排版、并列加权出泡、随机语句/随机图片）。标准 DSH bundle 插件，`dsh plugin` 一键安装，无需任何会话令牌。
 
 > ⚠️ **Codex 版小鲸鱼已迁至独立仓库** → <https://github.com/Yang-huai406/Codex-Whale-Public>（**已安装用户无需重装**；详见下方「两条分支怎么选」）
 <!-- 迁移横幅（v0.3.19 起）：迁移稳定后（约 2026-11，或发过 1–2 个版本）可只删这一行 blockquote，保留下方分支表与「致谢」——别让它长期占着第一屏 -->
+
+## 🐋 鲸鱼郎：本 fork 的角色（基于鲸鱼娘二次创作）
+
+本仓库是 [上游仓库](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 的 **fork**，功能与上游一致，**默认角色换成了「鲸鱼郎」** —— 原角色「鲸鱼娘」的男性对应版本，属**二次创作**，不是官方设定。
+
+**人设**：一只**保护鲸鱼娘、抵抗藤壶的勇敢少年**。藤壶爬满鲸鱼娘脚下时，他挡在她前面，双手抵住对手 —— 「我来保护鲸鱼娘。」
+
+![鲸鱼郎：保护鲸鱼娘、抵抗藤壶的勇敢少年](assets/DSH3.png)
+
+> 🎨 **版权说明**：原角色「鲸鱼娘」及其设定归上游作者所有；本 fork 的角色图为 **AI 生成的二次创作**（来源与处理见 [PROVENANCE.md](PROVENANCE.md)）。`assets/` 不在 MIT 覆盖范围内。
+
+装这个 fork：
+
+```bash
+dsh plugin --profile web add github:Nisaka520/DeepSeek-Balance-Whale-Widget
+```
+
+- **想换回原版鲸鱼娘**：原图仍保留在 `assets/DSniang02.png`
+- **想用自己的角色**：菜单 →「角色」上传即可（PNG / JPEG / WebP / GIF，单张上限 20 MB）
 
 ## 两条分支怎么选
 
