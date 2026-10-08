@@ -70,10 +70,10 @@ dsh-whale-widget/
   - `lib/index.js` 第 1405 行附近：用量记录接口返回的 `version`
   - `lib/index.js` 第 2872 行附近：`publicBalance()`（`/dsh-whale/balance.json`）返回的 `version`
 
-  改完务必确认无残留，例如把 `0.3.18` 换成 `0.1.10` 后：
+  改完务必确认无残留 —— 把下面的 `<旧版本号>` 替换成**你刚改掉的那个版本号**再跑；除这条命令自身，应无任何输出（本节刻意不写具体版本号，否则文档自己就会被搜出来）：
 
   ```bash
-  grep -rn "0\.3\.18" --exclude-dir=.git .   # 应无输出
+  grep -rn --exclude-dir=.git -e '<旧版本号>' .
   ```
 
   CI **不会**替你抓这个不一致（`ci.yml` 只校验版本号是 semver、包名没被改），所以靠人盯。
