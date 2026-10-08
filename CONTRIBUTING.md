@@ -66,6 +66,18 @@ dsh-whale-widget/
 - **日常检查**：`.github/workflows/ci.yml` 在 push 到 `main` 和 PR 到 `main` 时自动跑，只做检查、权限 `contents: read`、**永不发布**。它跑三件事：图层自检、两个前端/宿主文件的语法检查、以及"发布副本不得含开发机绝对路径"的扫描。
 - **真正发版**：`.github/workflows/publish.yml` **只有手动触发**（GitHub Actions 页面的 Run workflow，或 `gh workflow run publish.yml`）。它可以填一个"发版原因"（会写在 Release 说明最前面），也支持 `dry_run` 演练 —— 跑完全部门禁并生成 Release 说明，但**不发布、不建 Release**。
 - **版本号不自动递增**：发出去的版本号就是 `package.json` 里的 `version` 字段。改版本号 → push → 手动触发，才会发布 npm 并创建 `v<version>` tag 与 GitHub Release。
+- **⚠️ 改版本号必须同步三处，`package.json` 不是唯一来源**：宿主**不读** `package.json` 的 `version` —— `lib/index.js` 里另外**硬编码了两处**并直接发给前端，漏改会让「包内版本」与「接口返回版本」不一致：
+  - `lib/index.js` 第 1405 行附近：用量记录接口返回的 `version`
+  - `lib/index.js` 第 2872 行附近：`publicBalance()`（`/dsh-whale/balance.json`）返回的 `version`
+
+  改完务必确认无残留，例如把 `0.3.18` 换成 `0.1.10` 后：
+
+  ```bash
+  grep -rn "0\.3\.18" --exclude-dir=.git .   # 应无输出
+  ```
+
+  CI **不会**替你抓这个不一致（`ci.yml` 只校验版本号是 semver、包名没被改），所以靠人盯。
+- **界面不显示版本号**：`assets/whale-widget.js` 里**没有任何 `version` 读点**（README 里「菜单底部显示当前版本」一句与当前代码不符）。所以改版本号只影响包元数据与接口字段，**界面上看不到变化**，别以为是没生效。
 - **为什么必须手动**：npm 同名版本一旦发布就**不能覆盖**，只能 deprecate。所以"某次 push 恰好带了 version 变更就自动发布"是不安全的，这一步必须有人把关。
 - **发布前的门禁**：`publish.yml` 会在发布前把与 `ci.yml` 相同的检查再跑一遍（图层审计 + 语法 + 开发机路径），**审计不过就不允许发布**；另外如果 `package.json` 的版本号在 npm 上已经存在，会直接跳过发布，避免重复触发把 workflow 炸掉。
 - **发布副本必须先 strip**：宿主发布前必须跑一次 `_strip-dev-paths.mjs --apply`（它会删掉 `RUA_GIF_CANDIDATES` / `IMAGE_CANDIDATES` 这类开发机候选路径）。忘了跑的后果是老用户拿到的包会去读不存在的本机路径 —— 这正是 CI 里那个 `TestBox` 扫描要拦的东西。
